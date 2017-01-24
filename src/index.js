@@ -1,5 +1,6 @@
-import expect from 'expect';
-import deepFreeze from 'deep-freeze';
+//import expect from 'expect';
+//import deepFreeze from 'deep-freeze';
+import { createStore } from 'redux';
 
 // individual todo reducer
 const todo = (state, action) => {
@@ -38,68 +39,62 @@ const todos = (state = [], action) => {
   }
 };
 
-const testAddTodo = () => {
-  const stateBefore = [];
-  const action = {
-    type: 'ADD_TODO',
-    id: 0,
-    text: 'Redux'
-  };
-  const stateAfter = [
-    {
-      id: 0,
-      text: 'Redux',
-      completed: false
-    }
-  ];
-
-  deepFreeze(stateBefore);
-  deepFreeze(action);
-
-  expect(
-    todos(stateBefore, action)
-  ).toEqual(stateAfter);
+const visibilityFilter = (state = 'SHOW_ALL', action) => {
+  switch (action.type) {
+    case 'SET_VISIBILITY_FILTER':
+      return action.filter;
+    default:
+      return state;
+  }
 };
 
-const testToggleTodo = () => {
-  const stateBefore = [
-    {
-      id: 0,
-      text: 'Redux',
-      completed: false
-    },
-    {
-      id: 1,
-      text: 'React',
-      completed: false
-    }
-  ];
-  
-  const action = {
-    type: 'TOGGLE_TODO',
-    id: 1
+const todoApp = (state = {}, action) => {
+  return {
+    todos: todos(state.todos, action),
+    visibilityFilter: visibilityFilter(state.visibilityFilter, action)
   };
+};
 
-  const stateAfter = [
-    {
-      id: 0,
-      text: 'Redux',
-      completed: false
-    },
-    {
-      id: 1,
-      text: 'React',
-      completed: true
-    }
-  ];
+const store = createStore(todoApp);
 
-  deepFreeze(stateBefore);
-  deepFreeze(action);
+console.log('Initial state:');
+console.log(store.getState());
+console.log('--------------');
 
-  expect(todos(stateBefore, action)).toEqual(stateAfter);
+console.log('Dispatching ADD_TODO.');
+store.dispatch({
+  type: 'ADD_TODO',
+  id: 0,
+  text: 'Learn Redux'
+});
+console.log('Current state:');
+console.log(store.getState());
+console.log('--------------');
 
-}
+console.log('Dispatching ADD_TODO.');
+store.dispatch({
+  type: 'ADD_TODO',
+  id: 1,
+  text: 'Go shopping'
+});
+console.log('Current state:');
+console.log(store.getState());
+console.log('--------------');
 
-testAddTodo();
-testToggleTodo();
-console.log("All tests passed.")
+console.log('Dispatching TOGGLE_TODO.');
+store.dispatch({
+  type: 'TOGGLE_TODO',
+  id: 0
+});
+console.log('Current state:');
+console.log(store.getState());
+console.log('--------------');
+
+console.log('Dispatching SET_VISIBILITY_FILTER');
+store.dispatch({
+  type: 'SET_VISIBILITY_FILTER',
+  filter: 'SHOW_COMPLETED'
+});
+console.log('Current state:');
+console.log(store.getState());
+console.log('--------------');
