@@ -92,16 +92,16 @@ const TodoList = ({
   todos,
   onTodoClick
 }) => (
-  <ul>
-    {todos.map(todo => 
-      <Todo 
-        key={todo.id} 
-        {...todo}
-        onClick={() => onTodoClick(todo.id)} 
-      /> 
-    )}
-  </ul>
-);
+    <ul>
+      {todos.map(todo =>
+        <Todo
+          key={todo.id}
+          {...todo}
+          onClick={() => onTodoClick(todo.id)}
+          />
+      )}
+    </ul>
+  );
 
 const Todo = ({
   onClick,
@@ -139,15 +139,15 @@ class TodoApp extends React.Component {
         } }>
           Add Todo
         </button>
-        <TodoList 
+        <TodoList
           todos={visibleTodos}
-          onTodoClick={id => 
+          onTodoClick={id =>
             store.dispatch({
               type: 'TOGGLE_TODO',
               id
             })
           }
-        />
+          />
         <p>
           Show:
           {' '}
