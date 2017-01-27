@@ -258,12 +258,12 @@ Provider.childContextTypes = {
 };
 
 const TodoApp = ({ store }) => (
-    <div>
-      <AddTodo />
-      <VisibleTodoList />
-      <Footer />
-    </div>
-  );
+  <div>
+    <AddTodo />
+    <VisibleTodoList />
+    <Footer />
+  </div>
+);
 
 ReactDOM.render(
   <Provider store={createStore(todoApp)}>
