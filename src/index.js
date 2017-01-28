@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
 
 // individual todo reducer
 const todo = (state, action) => {
@@ -240,22 +241,6 @@ const Todo = ({
       {text}
     </li>
   );
-
-class Provider extends React.Component {
-  getChildContext() {
-    return {
-      store: this.props.store
-    };
-  }
-
-  render() {
-    return this.props.children;
-  }
-}
-
-Provider.childContextTypes = {
-  store: React.PropTypes.object
-};
 
 const TodoApp = ({ store }) => (
   <div>
