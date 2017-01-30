@@ -179,29 +179,27 @@ const Todo = ({
     </li>
   );
 
-const AddTodo = (props, { store }) => {
+let AddTodo = ({ dispatch }) => {
   let input;
   return (
     <div>
       <input ref={node => {
         input = node;
-      } } />
+      }} />
       <button onClick={() => {
-        store.dispatch({
+        dispatch({
           type: 'ADD_TODO',
           id: nextTodoId++,
           text: input.value
         })
         input.value = '';
-      } }>
+      }}>
         Add Todo
       </button>
     </div>
-  )
-}
-AddTodo.contextTypes = {
-  store: React.PropTypes.object
+  );
 };
+AddTodo = connect()(AddTodo);
 
 const mapStateToTodoListProps = (state) => {
   return {
